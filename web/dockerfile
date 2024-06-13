@@ -1,0 +1,7 @@
+FROM python:alpine3.19
+COPY . /usr/src/app
+COPY requirements.txt /usr/src/app/requirements.txt
+WORKDIR /usr/src/app
+RUN pip install -r requirements.txt
+
+CMD ["python", "web-service.py"]
