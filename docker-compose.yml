@@ -14,11 +14,11 @@ services:
       - app-tier
     container_name: postgresql_service
 
-  faker-service:
+  realiza-service:
     restart: always
-    build: ./faker
+    build: ./realiza_back
     volumes:
-     - ./faker:/usr/src/app
+     - ./realiza_back:/usr/src/app
     ports:
      - 5000:3000
     networks:
@@ -37,7 +37,7 @@ services:
     networks:
      - app-tier
     depends_on:
-     - faker-service
+     - realiza-service
     container_name: servicio_api_rest
 
   web-service:

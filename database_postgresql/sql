@@ -1,25 +1,35 @@
-DROP TABLE IF EXISTS PROYECTOS;
-DROP TABLE IF EXISTS USUARIO;
-DROP TABLE IF EXISTS CATEGORIAS;
-DROP TABLE IF EXISTS SUBCATEGORIAS;
-DROP TABLE IF EXISTS ALCANCES;
-DROP TABLE IF EXISTS FUENTE; 
-DROP TABLE IF EXISTS CONSUMOS; 
-
-CREATE TABLE PROYECTOS(
+Create table PROYECTOS(
 ID_PROYECTO int,
-NOMBRE varchar(100),
 HUELLA_DE_CARBONO numeric(30,5),
 HUELLA_HIDRICA numeric(30,5),
 HUELLA_FINANCIERA numeric(30,5),
 PRIMARY KEY(ID_PROYECTO)
 );
 
-CREATE TABLE USUARIO(
+alter table PROYECTOS add column nombre varchar(100);
+
+
+select * from proyectos 
+
+
+Create table USUARIO(
 ID_USUARIO varchar(100),
-ID_PROYECTO int not null,
-PASS text not null,
-NOMBRE varchar(100) not null,
+ID_PROYECTO varchar(100),
+PASS text,
+NOMBRE varchar(100),
+CORREO varchar(100),
+ACTIVO boolean not null,
+PRIMARY KEY(ID_USUARIO));
+
+select * from usuario;
+
+drop table usuario;
+
+Create table USUARIO(
+ID_USUARIO varchar(100),
+ID_PROYECTO int,
+PASS text,
+NOMBRE varchar(100),
 CORREO varchar(100),
 ACTIVO boolean not null,
 PRIMARY KEY(ID_USUARIO),
@@ -28,12 +38,19 @@ PRIMARY KEY(ID_USUARIO),
         REFERENCES PROYECTOS(ID_PROYECTO)
 );
 
+
 CREATE TABLE CATEGORIAS(	
 ID_CATEGORIA int,
 NOMBRE varchar(150) not null,
 DESCRIPCION	text,
 PRIMARY KEY(ID_CATEGORIA)
-);
+)
+
+select * from categorias
+
+drop table categorias;
+drop table subcategorias;
+
 
 CREATE TABLE SUBCATEGORIAS(	
 ID_SUBCATEGORIA	int,
@@ -46,23 +63,22 @@ PRIMARY KEY(ID_SUBCATEGORIA),
         REFERENCES CATEGORIAS(ID_CATEGORIA)
 );
 
+
+
+select * from subcategorias;
+
+
+
 CREATE TABLE ALCANCES(
 ID_ALCANCES	int,
 NOMBRE varchar(100) not null,
 DESCRIPCION	text,
+TIPOS_DE_ALCANCE varchar(100),
 PRIMARY KEY(ID_ALCANCES)
 --fk categorias
 );
 
-CREATE TABLE TIPOS_DE_ALCANCES(
-ID_TIPO_ALCANCE	int,
-ID_ALCANCES	int,
-DESCRIPCION	text,
-PRIMARY KEY(ID_TIPO_ALCANCE),
-   CONSTRAINT fk_alcance
-      FOREIGN KEY(ID_ALCANCES) 
-        REFERENCES ALCANCES(ID_ALCANCES)
-);
+
 
 CREATE TABLE FUENTE(
 ID_FUENTE int,
@@ -91,6 +107,14 @@ PRIMARY KEY(ID_FUENTE),
         
 );
 
+
+select * from fuente;
+
+
+drop table fuente;
+
+
+
 CREATE TABLE CONSUMOS(	
 ID_CONSUMO	varchar(50),  -- validar el tipo de dato UUID 
 ID_FUENTE int,
@@ -103,9 +127,15 @@ HUELLACHILE	boolean,
 PRIMARY KEY(ID_CONSUMO),
     CONSTRAINT fk_c_fuente
       FOREIGN KEY(ID_FUENTE) 
-        REFERENCES FUENTE(ID_FUENTE),
+        REFERENCES FUENTE(ID_FUENTE)
 
     CONSTRAINT fk_c_proyecto
       FOREIGN KEY(ID_PROYECTO) 
         REFERENCES PROYECTOS(ID_PROYECTO)
-);
+)
+alter table Consumos add CONSTRAINT fk_c_proyecto
+      FOREIGN KEY(ID_PROYECTO) 
+        REFERENCES PROYECTOS(ID_PROYECTO);
+select * from Consumos;
+
+alter table CONSUMOS add column ID_PROYECTO int;
