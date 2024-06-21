@@ -26,7 +26,6 @@ Abrir navegador y copiar lo siguiente
 
 ```bash
   localhost:5002
-  127.0.0.1:5002
 ```
 
 
