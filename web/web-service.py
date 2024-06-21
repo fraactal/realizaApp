@@ -8,21 +8,49 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 @app.route("/")
-def Home():
+def Categorias():
     try:
         # en la raiz, obtiene los datos del servicio faker
         url = f"http://api-service:{81}/"
         res = requests.get(url).json()
-        return render_template("table-with-pagination.html", profiles = res)
+        return render_template("categorias.html", categorias = res)
 
     except Exception as e:
         logging.debug(e)
         return {"message":"Error en consulta de datos web hacia el Api"}
 
+
+@app.route("/SubCategorias")
+def Subcategorias():
+    try:
+        # en la raiz, obtiene los datos del servicio faker
+        url = f"http://api-service:{81}/SubCategorias"
+        res = requests.get(url).json()
+        return render_template("subcategorias.html", subcategorias = res)
+
+    except Exception as e:
+        logging.debug(e)
+        return {"message":"Error en consulta de datos web hacia el Api"}
+
+@app.route("/Alcances")
+def Alcances():
+    try:
+        # en la raiz, obtiene los datos del servicio faker
+        url = f"http://api-service:{81}/Alcances"
+        res = requests.get(url).json()
+        return render_template("alcances.html", alcances = res)
+
+    except Exception as e:
+        logging.debug(e)
+        return {"message":"Error en consulta de datos web hacia el Api"}
+
+
 @app.route("/admin")
 def admin():
     return render_template("admin.html", context = {})
 
+
+'''
 @app.route("/admin/borrarRegistros")
 def borrarRegistros():
     try:
@@ -42,7 +70,7 @@ def crearRegistros():
     except Exception as e:
         logging.debug(e)
         return {"message":"Error en crear registros"}
-
+'''
 
 ############## RUN SERVER ####################
 if __name__ == '__main__':

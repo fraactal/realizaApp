@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from sqlalchemy import create_engine, sql
+#from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 
 import itertools
@@ -44,15 +45,44 @@ def execute_queries(list_queries_string=[],querie_type=''):
             print("Conexión cerrada")
 
 
-@app.route('/obtenerConsumos')
-def get_profiles():
-	querie_data= 'SELECT * FROM CONSUMOS;'
-	try:
-		data_profiles = json.loads(
-			execute_queries([querie_data],"SELECT"))
-		return json.dumps(data_profiles)
-	except Exception:
-		return {"message":"error en consulta de datos en servicio realiza-service"}
+#####################################
+# RUTAS DE LA API
+
+@app.route("/obtenerCategorias")
+def obtenerCategorias():
+     try:
+          querie_data= 'SELECT * FROM Categorias;'
+          data_profiles = json.loads(execute_queries([querie_data],"SELECT"))
+          logging.debug(data_profiles)
+          return json.dumps(data_profiles)
+     except Exception:
+		    return {"message":"error en consulta de datos en servicio realiza-service"}
+
+
+@app.route("/SubCategorias")
+def SubCategorias():
+     try:
+          #querie_data= 'SELECT * FROM subcategorias;'
+          querie_data = '''select s.id_subcategoria, c.nombre as categoria, s.nombre, s.descripcion 
+                        from subcategorias s inner join Categorias c on s.id_categoria = c.id_categoria'''
+          
+          data_profiles = json.loads(execute_queries([querie_data],"SELECT"))
+          logging.debug(data_profiles)
+          return json.dumps(data_profiles)
+     except Exception:
+		    return {"message":"error en consulta de datos en servicio realiza-service"}
+
+
+
+@app.route("/Alcances")
+def Alcances():
+     try:
+          querie_data= 'SELECT * FROM alcances;'
+          data_profiles = json.loads(execute_queries([querie_data],"SELECT"))
+          logging.debug(data_profiles)
+          return json.dumps(data_profiles)
+     except Exception:
+		    return {"message":"error en consulta de datos en servicio realiza-service"}
 
 
 ############## RUN SERVER ####################

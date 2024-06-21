@@ -12,34 +12,57 @@ logging.basicConfig(level=logging.DEBUG)
 def home():
     try:
         # al ser un docker compose, la url lleba el nombre del servicio realiza-service
-        url = f"http://realiza-service:{3000}/obtenerRegistros"
+        url = f"http://realiza-service:{3000}/obtenerCategorias"
         res = requests.get(url).json()
-        return json.dumps(res)
+        return json.dumps(res, indent=4)
     except Exception as e:
         logging.debug(e)
         return {"message":"Error en consultar datos en el servicio de API"}
 
-@app.route("/admin/borrarRegistros")
-def borrarRegistros():
+@app.route("/SubCategorias")
+def SubCategorias():
     try:
         # al ser un docker compose, la url lleba el nombre del servicio realiza-service
-        url = f"http://realiza-service:{3000}/borrarRegistros"
+        url = f"http://realiza-service:{3000}/SubCategorias"
         res = requests.get(url).json()
-        return json.dumps(res)
+        return json.dumps(res, indent=4)
     except Exception as e:
         logging.debug(e)
-        return {"message":"Error en borrar datos en el servicio de API"}
+        return {"message":"Error en consultar datos en el servicio de API"}
 
-@app.route("/admin/crearRegistros")
-def crearRegistros():
+@app.route("/Alcances")
+def Alcances():
     try:
         # al ser un docker compose, la url lleba el nombre del servicio realiza-service
-        url = f"http://realiza-service:{3000}/crearRegistros"
+        url = f"http://realiza-service:{3000}/Alcances"
         res = requests.get(url).json()
-        return json.dumps(res)
+        return json.dumps(res, indent=4)
     except Exception as e:
         logging.debug(e)
-        return {"message":"Error en borrar datos en el servicio de API"}
+        return {"message":"Error en consultar datos en el servicio de API"}
+
+
+#@app.route("/admin/borrarRegistros")
+#def borrarRegistros():
+#    try:
+#        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
+#        url = f"http://realiza-service:{3000}/borrarRegistros"
+#        res = requests.get(url).json()
+#        return json.dumps(res)
+#    except Exception as e:
+#        logging.debug(e)
+#        return {"message":"Error en borrar datos en el servicio de API"}
+
+#@app.route("/admin/crearRegistros")
+#def crearRegistros():
+#    try:
+#        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
+#        url = f"http://realiza-service:{3000}/crearRegistros"
+#        res = requests.get(url).json()
+#        return json.dumps(res)
+#    except Exception as e:
+#        logging.debug(e)
+#        return {"message":"Error en borrar datos en el servicio de API"}
 
 
 ############## RUN SERVER ####################

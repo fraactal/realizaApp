@@ -25,7 +25,7 @@ services:
      - app-tier
     depends_on:
      - database-service
-    container_name: servicio_datos_falsos
+    container_name: servicio_realiza_back
 
   api-service:
     restart: always
