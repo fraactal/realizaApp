@@ -169,6 +169,7 @@ PRIMARY KEY(ID_CONSUMO),
 
 -- Inserts Iniciales
 
+-- #####################################
 -- Tabla Proyectos
 INSERT INTO proyectos (id_proyecto, nombre, descripcion) VALUES(1, 'Proyecto 1', 'Proyecto de Prueba 1');
 INSERT INTO proyectos (id_proyecto, nombre, descripcion) VALUES(2, 'Proyecto 2', 'Proyecto de Prueba 2');
