@@ -116,7 +116,7 @@
 			};
 
 			$(document).ready(function(){				
-			  $('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:4});				
+			  $('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:10});				
 			});
 		</script>
 		
@@ -128,23 +128,17 @@
 				<table class="table table-hover">
 				  <thead>
 					<tr>
-					  <th>Job</th>
-					  <th>Company</th>
-					  <th>SSN</th>
-					  <th>Residence</th>
-					  <th>Blood group</th>
-					  <th>Current location</th>
+					  <th>ID_proyecto</th>
+					  <th>Nombre</th>
+					  <th>Descripcion</th>
 					</tr>
 				  </thead>
 				  <tbody id="myTable">
-					{% for Customer in profiles %}  
+					{% for proyecto in proyectos %}  
 					<tr>  
-					 <td>{{ Customer.job }}</td>  
-					 <td>{{ Customer.company }}</td>  
-					 <td>{{ Customer.ssn }}</td>  
-					 <td>{{ Customer.residence }}</td>  
-					 <td>{{ Customer.blood_group }}</td>  
-					 <td>{{ Customer.current_location }}</td>  
+					 <td>{{ proyecto.id_proyecto}}</td>  
+					 <td>{{ proyecto.nombre}}</td>  
+					 <td>{{ proyecto.descripcion}}</td>   
 					</tr>  
 				   {% endfor %} 
 				  </tbody>
