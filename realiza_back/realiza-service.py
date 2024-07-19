@@ -151,6 +151,65 @@ def obtenerTiposGasGEI():
      except Exception:
         return {"message":"error en consulta de datos en servicio realiza-service"}
 
+@app.route("/FactoresDeEmision")
+def obtenerFactoresDeEmisionI():
+     try:
+          querie_data= '''
+          SELECT 
+          fde.id_factor_emision, fde.id_Fuente, f.nombre as fuente_emision, fde.origen_del_fe, fde.incertidumbre,
+          ufe.nombre as unidad_fuente,  -- unidad_factor_emision
+          vfe.valor, -- valor_unidad_x_factor_emision
+          tgg.sigla as gei, tgg.nombre as nombre_gei -- tipos_gas_gei
+          -- fde.combustible, fde.id_unidad_factor_emision, ufe.id_unidad_factor_emision, vfe.id_factor_emision, vfe.id_gas_gei, 
+          from factor_de_emision fde 
+          inner join unidad_factor_emision ufe on fde.id_unidad_factor_emision = ufe.id_unidad_factor_emision
+          inner join valor_unidad_x_factor_emision vfe on fde.id_factor_emision = vfe.id_factor_emision
+          inner join tipos_gas_gei tgg on vfe.id_gas_gei = tgg.id_gas_gei 
+          inner join fuente f on fde.id_fuente = f.id_fuente;
+          '''
+          data_profiles = json.loads(execute_queries([querie_data],"SELECT"))
+          logging.debug(data_profiles)
+          return json.dumps(data_profiles)
+     except Exception:
+        return {"message":"error en consulta de datos en servicio realiza-service"}
+
+@app.route("/Fuentes")
+def Fuentes():
+     try:
+          querie_data= '''
+          
+          select id_fuente, f.nombre as Fuente, uf.nombre as Unidad, uf.sigla as Sigla_unidad, 
+          a.nombre as Alcance, c.nombre as Categoria, s.nombre as SubCategoria
+          from fuente f
+          inner join unidad_fuente uf on f.id_unidad_fuente = uf.id_unidad_fuente 
+          inner join alcances a on a.id_alcances = f.id_alcances 
+          inner join categorias c on f.id_categoria = c.id_categoria 
+          inner join subcategorias s on s.id_subcategoria = f.id_subcategoria 
+          
+          '''
+          data_profiles = json.loads(execute_queries([querie_data],"SELECT"))
+          logging.debug(data_profiles)
+          return json.dumps(data_profiles)
+     except Exception:
+        return {"message":"error en consulta de datos en servicio realiza-service"}
+
+@app.route("/Consumos")
+def Consumos():
+     try:
+          querie_data= '''
+               select c.id_consumo, f.nombre as fuente, c.cantidad_fuente, c.link_respaldo ,
+               c.comentarios, c.huellachile, camp.nombre as campus
+               from consumos c 
+               inner join fuente f on f.id_fuente = c.id_fuente 
+               inner join campus camp on c.id_campus = camp.id_campus;
+          '''
+          data_profiles = json.loads(execute_queries([querie_data],"SELECT"))
+          logging.debug(data_profiles)
+          return json.dumps(data_profiles)
+     except Exception:
+        return {"message":"error en consulta de datos en servicio realiza-service"}
+     
+     
 
 ############## RUN SERVER ####################
 if __name__ == '__main__':

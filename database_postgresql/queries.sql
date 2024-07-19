@@ -32,3 +32,26 @@ SELECT id_unidad_factor_emision, nombre from unidad_factor_emision;
 
 -- Tipos gas GEI
 SELECT id_gas_gei, nombre, sigla FROM tipos_gas_gei;
+
+
+-- Factores de Emision
+SELECT fde.id_factor_emision, fde.id_Fuente, f.nombre as fuente_emision, fde.origen_del_fe, fde.incertidumbre,
+ufe.nombre as unidad_fuente,  -- unidad_factor_emision
+vfe.valor, -- valor_unidad_x_factor_emision
+tgg.sigla as gei, tgg.nombre as nombre_gei -- tipos_gas_gei
+-- fde.combustible, fde.id_unidad_factor_emision, ufe.id_unidad_factor_emision, vfe.id_factor_emision, vfe.id_gas_gei, 
+from factor_de_emision fde 
+inner join unidad_factor_emision ufe on fde.id_unidad_factor_emision = ufe.id_unidad_factor_emision
+inner join valor_unidad_x_factor_emision vfe on fde.id_factor_emision = vfe.id_factor_emision
+inner join tipos_gas_gei tgg on vfe.id_gas_gei = tgg.id_gas_gei 
+inner join fuente f on fde.id_fuente = f.id_fuente;
+
+
+--- Fuente
+select id_fuente, f.nombre as Fuente, uf.nombre as Unidad, uf.sigla as Sigla_unidad, a.nombre as Alcance, c.nombre as Categoria, s.nombre as SubCategoria
+from fuente f
+inner join unidad_fuente uf on f.id_unidad_fuente = uf.id_unidad_fuente 
+inner join alcances a on a.id_alcances = f.id_alcances 
+inner join categorias c on f.id_categoria = c.id_categoria 
+inner join subcategorias s on s.id_subcategoria = f.id_subcategoria 
+

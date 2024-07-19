@@ -131,6 +131,45 @@ def TiposGasGEI():
         return {"message":"Error en consulta de datos web hacia el Api"}
 
 
+@app.route("/FactoresDeEmision")
+def FactoresDeEmision():
+    try:
+        # en la raiz, obtiene los datos del servicio faker
+        url = f"http://api-service:{81}/FactoresDeEmision"
+        res = requests.get(url).json()
+        return render_template("factores_de_emision.html", factoresdeemision = res)
+
+    except Exception as e:
+        logging.debug(e)
+        return {"message":"Error en consulta de datos web hacia el Api"}
+
+@app.route("/Fuentes")
+def Fuentes():
+    try:
+        # en la raiz, obtiene los datos del servicio faker
+        url = f"http://api-service:{81}/Fuentes"
+        res = requests.get(url).json()
+        return render_template("fuentes.html", fuentes = res)
+
+    except Exception as e:
+        logging.debug(e)
+        return {"message":"Error en consulta de datos web hacia el Api"}
+
+@app.route("/Consumos")
+def Consumos():
+    try:
+        # en la raiz, obtiene los datos del servicio faker
+        url = f"http://api-service:{81}/Consumos"
+        res = requests.get(url).json()
+        return render_template("consumos.html", consumos = res)
+
+    except Exception as e:
+        logging.debug(e)
+        return {"message":"Error en consulta de datos web hacia el Api"}
+
+
+##################
+
 '''
 @app.route("/admin/borrarRegistros")
 def borrarRegistros():
