@@ -40,6 +40,19 @@ services:
      - realiza-service
     container_name: servicio_api_rest
 
+  fast-api-service:
+    restart: always
+    build: ./fast_api
+    volumes:
+      - ./api:/usr/src/app
+    ports:
+      - 5005:5005
+    networks:
+      - app-tier
+    depends_on:
+      - realiza-service
+    container_name: servicio_fast_api
+
   web-service:
     restart: always
     build: ./web
