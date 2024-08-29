@@ -1,4 +1,5 @@
 FROM python:alpine3.19
+# FROM python:3.9
 COPY . /usr/src/app
 COPY requirements.txt /usr/src/app/requirements.txt
 WORKDIR /usr/src/app

@@ -167,6 +167,24 @@ def Consumos():
         logging.debug(e)
         return {"message":"Error en consulta de datos web hacia el Api"}
 
+@app.route("/Consumos/<sede>", methods=['GET'])
+def Consumos_sede(sede:str):
+    try:
+        logging.debug(f"web-service: {sede}")
+        # en la raiz, obtiene los datos del servicio faker
+        url = f"http://api-service:{81}/Consumos/{sede}"
+        res = requests.get(url).json()
+        return render_template("consumos_sede.html", consumos_str = res)
+
+    except Exception as e:
+        logging.debug(e)
+        return {"message":"Error en consulta de datos web hacia el Api"}
+
+#@app.route("/Consumos/<sede>", methods=['GET'])
+#def printSede(sede:str):
+#    print(sede)
+
+#@app.route(str)
 
 ##################
 

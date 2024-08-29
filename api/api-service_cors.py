@@ -3,9 +3,15 @@ import requests
 import json
 import os
 import logging
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+
+# Configura CORS para permitir todos los orígenes
+#CORS(app, resources={r"/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 logging.basicConfig(level=logging.DEBUG)
 
 @app.route("/")
@@ -22,7 +28,7 @@ def home():
 @app.route("/SubCategorias")
 def SubCategorias():
     try:
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
         url = f"http://realiza-service:{3000}/SubCategorias"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
@@ -33,7 +39,7 @@ def SubCategorias():
 @app.route("/Alcances")
 def Alcances():
     try:
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
         url = f"http://realiza-service:{3000}/Alcances"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
@@ -45,7 +51,7 @@ def Alcances():
 @app.route("/Proyectos")
 def Proyectos():
     try:
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
         url = f"http://realiza-service:{3000}/Proyectos"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
@@ -56,7 +62,7 @@ def Proyectos():
 @app.route("/Campus")
 def Campus():
     try:
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
         url = f"http://realiza-service:{3000}/Campus"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
@@ -67,7 +73,7 @@ def Campus():
 @app.route("/Usuarios")
 def Usuarios():
     try:
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
         url = f"http://realiza-service:{3000}/Usuarios"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
@@ -80,7 +86,7 @@ def Usuarios():
 @app.route("/UnidadFuente")
 def UnidadFuente():
     try:
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
         url = f"http://realiza-service:{3000}/UnidadFuente"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
@@ -92,7 +98,7 @@ def UnidadFuente():
 @app.route("/UnidadFactorEmision")
 def UnidadFactorEmision():
     try:
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
         url = f"http://realiza-service:{3000}/UnidadFactorEmision"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
@@ -104,7 +110,7 @@ def UnidadFactorEmision():
 @app.route("/TiposGasGEI")
 def TiposGasGEI():
     try:
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
         url = f"http://realiza-service:{3000}/TiposGasGEI"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
@@ -116,7 +122,7 @@ def TiposGasGEI():
 @app.route("/FactoresDeEmision")
 def FactoresDeEmision():
     try:
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
         url = f"http://realiza-service:{3000}/FactoresDeEmision"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
@@ -127,7 +133,7 @@ def FactoresDeEmision():
 @app.route("/Fuentes")
 def Fuentes():
     try:
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
         url = f"http://realiza-service:{3000}/Fuentes"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
@@ -138,20 +144,8 @@ def Fuentes():
 @app.route("/Consumos")
 def Consumos():
     try:
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
         url = f"http://realiza-service:{3000}/Consumos"
-        res = requests.get(url).json()
-        return json.dumps(res, indent=4)
-    except Exception as e:
-        logging.debug(e)
-        return {"message":"Error en consultar datos en el servicio de API"}
-
-@app.route("/Consumos/<sede>")
-def Consumos_sede(sede:str):
-    try:
-        logging.debug(f"api-service: {sede}")
-        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
-        url = f"http://realiza-service:{3000}/Consumos/{sede}"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
     except Exception as e:
@@ -162,7 +156,7 @@ def Consumos_sede(sede:str):
 #@app.route("/admin/borrarRegistros")
 #def borrarRegistros():
 #    try:
-#        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
+#        # al ser un docker compose, la url lleba el nombre del servicio realiza-service
 #        url = f"http://realiza-service:{3000}/borrarRegistros"
 #        res = requests.get(url).json()
 #        return json.dumps(res)
@@ -183,5 +177,5 @@ def Consumos_sede(sede:str):
 
 
 ############## RUN SERVER ####################
-if __name__ == '__main__':
+if __name__ == '_main_':
     app.run(host='0.0.0.0', port=81, debug=True)

@@ -208,7 +208,35 @@ def Consumos():
           return json.dumps(data_profiles)
      except Exception:
         return {"message":"error en consulta de datos en servicio realiza-service"}
-     
+
+@app.route("/Consumos/<sede>")
+def Consumos_sede(sede:str):
+     try:
+          logging.debug(f"realiza-back-service: {sede}")
+          querie_data= f'''
+          select sum(vfe.valor) as sumaFactorEmision, (sum(vfe.valor)*c.cantidad_fuente) as emision, ufe.nombre as unidadFactor, uf.nombre as Unidadfuente, -- uf.sigla ,
+          f.nombre as fuente_emision,c.cantidad_fuente, camp.nombre as campus, c.id_consumo, a.nombre as alcance, c2.nombre as categoria
+          from factor_de_emision fde 
+          inner join unidad_factor_emision ufe on fde.id_unidad_factor_emision = ufe.id_unidad_factor_emision
+          inner join valor_unidad_x_factor_emision vfe on fde.id_factor_emision = vfe.id_factor_emision
+          inner join tipos_gas_gei tgg on vfe.id_gas_gei = tgg.id_gas_gei 
+          inner join fuente f on fde.id_fuente = f.id_fuente
+          inner join unidad_fuente uf  on uf.id_unidad_fuente = f.id_unidad_fuente 
+          inner join consumos c on c.id_fuente = f.id_fuente 
+          inner join campus camp on camp.id_campus  = c.id_campus
+          inner join alcances a on a.id_alcances = f.id_alcances 
+          inner join categorias c2 on c2.id_categoria = f.id_categoria 
+          where lower(camp.nombre) = '{sede}'
+          group by f.nombre,  c.cantidad_fuente, camp.nombre, 
+          c.id_consumo, unidadFactor, uf.nombre, uf.sigla, a.nombre, c2.nombre
+          order by c.id_consumo asc;
+          '''
+          
+          data_profiles = json.loads(execute_queries([querie_data],"SELECT"))
+          logging.debug(data_profiles)
+          return json.dumps(data_profiles)
+     except Exception:
+        return {"message":"error en consulta de datos en servicio realiza-service"}
      
 
 ############## RUN SERVER ####################
