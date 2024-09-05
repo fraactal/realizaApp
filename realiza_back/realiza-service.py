@@ -1,6 +1,5 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from sqlalchemy import create_engine, sql
-#from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 
 import itertools
@@ -197,25 +196,27 @@ def Fuentes():
 def Consumos():
      try:
           querie_data= '''
-               select c.id_consumo, f.nombre as fuente, c.cantidad_fuente, c.link_respaldo ,
+               select c.id_consumo, f.nombre as fuente, c.cantidad_fuente, c.fecha, c.link_respaldo ,
                c.comentarios, c.huellachile, camp.nombre as campus
                from consumos c 
                inner join fuente f on f.id_fuente = c.id_fuente 
                inner join campus camp on c.id_campus = camp.id_campus;
           '''
           data_profiles = json.loads(execute_queries([querie_data],"SELECT"))
-          logging.debug(data_profiles)
+          #logging.debug(data_profiles)
           return json.dumps(data_profiles)
      except Exception:
         return {"message":"error en consulta de datos en servicio realiza-service"}
 
-@app.route("/Consumos/<sede>")
-def Consumos_sede(sede:str):
+@app.route("/Consumos/sede/")
+def Consumos_sede():
      try:
-          logging.debug(f"realiza-back-service: {sede}")
+          sede = request.args.get('sede', type = str)
+          logging.debug(f"realiza-back-service /Consumos/sede/: {sede}")
           querie_data= f'''
           select sum(vfe.valor) as sumaFactorEmision, (sum(vfe.valor)*c.cantidad_fuente) as emision, ufe.nombre as unidadFactor, uf.nombre as Unidadfuente, -- uf.sigla ,
-          f.nombre as fuente_emision,c.cantidad_fuente, camp.nombre as campus, c.id_consumo, a.nombre as alcance, c2.nombre as categoria
+          to_char(c.fecha, 'DD/MM/YY') as fecha 
+          , f.nombre as fuente_emision,c.cantidad_fuente, camp.nombre as campus, c.id_consumo, a.nombre as alcance, c2.nombre as categoria
           from factor_de_emision fde 
           inner join unidad_factor_emision ufe on fde.id_unidad_factor_emision = ufe.id_unidad_factor_emision
           inner join valor_unidad_x_factor_emision vfe on fde.id_factor_emision = vfe.id_factor_emision
@@ -226,18 +227,40 @@ def Consumos_sede(sede:str):
           inner join campus camp on camp.id_campus  = c.id_campus
           inner join alcances a on a.id_alcances = f.id_alcances 
           inner join categorias c2 on c2.id_categoria = f.id_categoria 
-          where lower(camp.nombre) = '{sede}'
+          where lower(camp.nombre) = '{sede.lower()}'
           group by f.nombre,  c.cantidad_fuente, camp.nombre, 
           c.id_consumo, unidadFactor, uf.nombre, uf.sigla, a.nombre, c2.nombre
           order by c.id_consumo asc;
           '''
-          
+
           data_profiles = json.loads(execute_queries([querie_data],"SELECT"))
-          logging.debug(data_profiles)
+          #logging.debug(data_profiles)
           return json.dumps(data_profiles)
      except Exception:
         return {"message":"error en consulta de datos en servicio realiza-service"}
      
+
+'''
+     The URL parameters are available in request.args, which is an ImmutableMultiDict that has a get method, with optional parameters for default value (default) and type (type) - which is a callable that converts the input value to the desired format. (See the documentation of the method for more details.)
+
+     from flask import request
+
+     @app.route('/parametro/')
+     def my_route():
+          page = request.args.get('sede', type = str)
+          #filter = request.args.get('filter', default = '*', type = str) 
+          #logging.debug("Parametro BACK: ", page) 
+          return page
+
+     Examples with the code above:
+
+     /my-route?sede=34               -> page: 34  filter: '*'
+     /my-route                       -> page:  1  filter: '*'
+     /my-route?sede=10&filter=test   -> page: 10  filter: 'test'
+     /my-route?sede=10&filter=10     -> page: 10  filter: '10'
+     /my-route?sede=*&filter=*       -> page:  1  filter: '*'
+'''
+
 
 ############## RUN SERVER ####################
 if __name__ == '__main__':

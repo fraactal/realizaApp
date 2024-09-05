@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import requests
 import json
 import os
@@ -146,12 +146,15 @@ def Consumos():
         logging.debug(e)
         return {"message":"Error en consultar datos en el servicio de API"}
 
-@app.route("/Consumos/<sede>")
-def Consumos_sede(sede:str):
+@app.route("/Consumos/sede/")
+def Consumos_sede():
     try:
-        logging.debug(f"api-service: {sede}")
+        sede = request.args.get('sede', type = str)
+        logging.debug(f"api-service /Consumos/sede/: {sede}")
         # al ser un docker compose, la url lleva el nombre del servicio realiza-service
-        url = f"http://realiza-service:{3000}/Consumos/{sede}"
+        url = f"http://realiza-service:{3000}/Consumos/sede/?sede={sede}"
+        #url = f"http://realiza-service:{3000}/Consumos/{sede}"
+        #logging.debug("Consulta al url: ",url)
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
     except Exception as e:

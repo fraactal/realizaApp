@@ -20,7 +20,7 @@ services:
     volumes:
      - ./realiza_back:/usr/src/app
     ports:
-     - 5000:3000
+     - 6000:3000
     networks:
      - app-tier
     depends_on:
@@ -33,7 +33,7 @@ services:
     volumes:
      - ./api:/usr/src/app
     ports:
-     - 5001:81
+     - 6001:81
     networks:
      - app-tier
     depends_on:
@@ -46,7 +46,7 @@ services:
     volumes:
       - ./api:/usr/src/app
     ports:
-      - 5005:5005
+      - 6005:6005
     networks:
       - app-tier
     depends_on:
@@ -59,7 +59,7 @@ services:
     volumes:
       - ./web:/usr/src/app
     ports:
-      - 5002:82
+      - 6002:82
     networks:
       - app-tier
     container_name: servicio_web_app
