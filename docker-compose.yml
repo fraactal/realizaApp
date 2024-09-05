@@ -46,7 +46,7 @@ services:
     volumes:
       - ./api:/usr/src/app
     ports:
-      - 6005:5005
+      - 6005:6005
     networks:
       - app-tier
     depends_on:
