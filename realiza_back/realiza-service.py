@@ -197,7 +197,7 @@ def Fuentes():
 def Consumos():
      try:
           querie_data= '''
-               select c.id_consumo, f.nombre as fuente, c.cantidad_fuente, c.link_respaldo ,
+               select c.id_consumo, f.nombre as fuente, c.cantidad_fuente, c.fecha, c.link_respaldo ,
                c.comentarios, c.huellachile, camp.nombre as campus
                from consumos c 
                inner join fuente f on f.id_fuente = c.id_fuente 
@@ -215,7 +215,8 @@ def Consumos_sede(sede:str):
           logging.debug(f"realiza-back-service: {sede}")
           querie_data= f'''
           select sum(vfe.valor) as sumaFactorEmision, (sum(vfe.valor)*c.cantidad_fuente) as emision, ufe.nombre as unidadFactor, uf.nombre as Unidadfuente, -- uf.sigla ,
-          f.nombre as fuente_emision,c.cantidad_fuente, camp.nombre as campus, c.id_consumo, a.nombre as alcance, c2.nombre as categoria
+          ,to_char(c.fecha, 'DD/MM/YY') as fecha 
+          , f.nombre as fuente_emision,c.cantidad_fuente, camp.nombre as campus, c.id_consumo, a.nombre as alcance, c2.nombre as categoria
           from factor_de_emision fde 
           inner join unidad_factor_emision ufe on fde.id_unidad_factor_emision = ufe.id_unidad_factor_emision
           inner join valor_unidad_x_factor_emision vfe on fde.id_factor_emision = vfe.id_factor_emision
