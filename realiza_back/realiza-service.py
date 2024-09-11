@@ -47,8 +47,18 @@ def execute_queries(list_queries_string=[],querie_type=''):
 #####################################
 # RUTAS DE LA API
 
-@app.route("/obtenerCategorias")
+@app.route("/")
 def obtenerCategorias():
+     try:
+          querie_data= 'SELECT id_categoria, nombre, descripcion FROM Categorias;'
+          data_profiles = json.loads(execute_queries([querie_data],"SELECT"))
+          logging.debug(data_profiles)
+          return json.dumps(data_profiles)
+     except Exception:
+		    return {"message":"error en consulta de datos en servicio realiza-service"}
+
+@app.route("/Categorias")
+def Categorias():
      try:
           querie_data= 'SELECT id_categoria, nombre, descripcion FROM Categorias;'
           data_profiles = json.loads(execute_queries([querie_data],"SELECT"))

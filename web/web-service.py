@@ -8,10 +8,19 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 @app.route("/")
+def Home():
+    try:
+        return render_template("admin.html")
+
+    except Exception as e:
+        logging.debug(e)
+        return {"message":"Error en consulta Home hacia el Api"}
+
+@app.route("/Categorias")
 def Categorias():
     try:
         # en la raiz, obtiene los datos del servicio faker
-        url = f"http://api-service:{81}/"
+        url = f"http://api-service:{81}/Categorias"
         res = requests.get(url).json()
         return render_template("categorias.html", categorias = res)
 
