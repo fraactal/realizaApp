@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Response, status, Request
-from models.producto import Product
+
 from models.consumo import Consumo
 
 import logging
@@ -80,17 +80,3 @@ def get_consumo(sede:str):
 
 #DateTimePattern['%a, %d %b %Y %H:%M:%S %Z']
 
-#@router.get('/consumosDumy')
-#def get_consumo_dumy():
-#    try:
-#        # al ser un docker compose, la url lleva el nombre del servicio realiza-service
-#        for field_dict in datos_dumy['fields']:
-#            #Consumo.model_validate()['fields']:
-#            #Consumo.model_validate(field_dict)
-#            logging.debug("Dentro del Json")
-#            logging.debug(Consumo.model_validate_json(field_dict)) 
-#
-#        #return Response(content=json_str, media_type='application/json', status_code=status.HTTP_200_OK)
-#    except Exception as e:
-#        logging.debug(e)
-#        return {"message":"Error en recorrer la shity"}

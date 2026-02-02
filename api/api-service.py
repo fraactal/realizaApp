@@ -10,14 +10,19 @@ logging.basicConfig(level=logging.DEBUG)
 
 @app.route("/")
 def home():
+    return {"message":"Home de la Aplicación"}
+    
+@app.route("/Categorias")
+def Categorias():
     try:
         # al ser un docker compose, la url lleva el nombre del servicio realiza-service
-        url = f"http://realiza-service:{3000}/obtenerCategorias"
+        url = f"http://realiza-service:{3000}/Categorias"
         res = requests.get(url).json()
         return json.dumps(res, indent=4)
     except Exception as e:
         logging.debug(e)
         return {"message":"Error en consultar datos en el servicio de API"}
+
 
 @app.route("/SubCategorias")
 def SubCategorias():
